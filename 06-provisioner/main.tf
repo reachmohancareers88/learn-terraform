@@ -16,8 +16,8 @@ resource "azurerm_network_interface" "frontend" {
   resource_group_name = "denmark-east-rg"
 
   ip_configuration {
-    name                          =  "frontend-nic1"
-    subnet_id                     = "/subscriptions/cde5241e-289a-449b-b2b7-4efcf2d5c83c/resourceGroups/denmark-east-rg/providers/Microsoft.Network/virtualNetworks/controller-vnet/subnets/default"
+    name                          = "frontend-nic1"
+    subnet_id                     = "/subscriptions/cde5241e-289a-449b-b2b7-4efcf2d5c83c/resourceGroups/denmark-east-rg/providers/Microsoft.Network/virtualNetworks/controller-vnet/subnets/controller-subnet"
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.frontend.id
   }
@@ -28,7 +28,7 @@ resource "azurerm_linux_virtual_machine" "frontend" {
   location              = "Denmark East"
   resource_group_name   = "denmark-east-rg"
   network_interface_ids = [azurerm_network_interface.frontend.id]
-  size               = "Standard_B1s"
+  size                  = "Standard_B1s"
 
   source_image_id = "/subscriptions/cde5241e-289a-449b-b2b7-4efcf2d5c83c/resourceGroups/denmark-east-rg/providers/Microsoft.Compute/galleries/controller/images/1.0.0/versions/1.0.0"
 
@@ -47,10 +47,10 @@ resource "azurerm_linux_virtual_machine" "frontend" {
 
   provisioner "remote-exec" {
     connection {
-      type = "ssh"
-      user = "devops"
+      type     = "ssh"
+      user     = "devops"
       password = "DevOps@123456"
-      host = azurerm_network_interface.frontend.private_ip_address
+      host     = azurerm_network_interface.frontend.private_ip_address
     }
 
     inline = [
@@ -69,3 +69,4 @@ resource "azurerm_dns_a_record" "frontend" {
   ttl                 = 30
   records             = [azurerm_network_interface.frontend.private_ip_address]
 }
+
