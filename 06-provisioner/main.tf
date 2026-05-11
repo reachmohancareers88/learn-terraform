@@ -17,7 +17,7 @@ resource "azurerm_network_interface" "frontend" {
 
   ip_configuration {
     name                          =  "frontend-nic1"
-    subnet_id                     = "/subscriptions/3f2e42e1-ca06-4a99-8c56-be8d8ba306db/resourceGroups/denmark-east-rg/providers/Microsoft.Network/virtualNetworks/rhel10-vmVNET/subnets/rhel10-vmSubnet"
+    subnet_id                     = "/subscriptions/cde5241e-289a-449b-b2b7-4efcf2d5c83c/resourceGroups/denmark-east-rg/providers/Microsoft.Network/virtualNetworks/rhel10-vm/subnets/rhel10-vmSubnet"
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.frontend.id
   }
@@ -30,7 +30,7 @@ resource "azurerm_linux_virtual_machine" "frontend" {
   network_interface_ids = [azurerm_network_interface.frontend.id]
   size               = "Standard_B1s"
 
-  source_image_id = "/subscriptions/3f2e42e1-ca06-4a99-8c56-be8d8ba306db/resourceGroups/denmark-east-rg/providers/Microsoft.Compute/galleries/rhel10/images/1.0.0/versions/1.0.0"
+  source_image_id = "/subscriptions/cde5241e-289a-449b-b2b7-4efcf2d5c83c/resourceGroups/denmark-east-rg/providers/Microsoft.Compute/galleries/controller/images/1.0.0/versions/1.0.0"
 
   os_disk {
     caching              = "ReadWrite"
@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "frontend" {
 
 resource "azurerm_dns_a_record" "frontend" {
   name                = "frontend-dev1"
-  zone_name           = "rdevopsb89.online"
+  zone_name           = "drmohanlearning.online"
   resource_group_name = "denmark-east-rg"
   ttl                 = 30
   records             = [azurerm_network_interface.frontend.private_ip_address]
