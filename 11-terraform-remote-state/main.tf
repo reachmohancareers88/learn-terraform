@@ -6,7 +6,7 @@ provider "azurerm" {
 terraform {
   backend "azurerm" {
     resource_group_name  = "denmark-east-rg"
-    storage_account_name = "rdevopsb89"
+    storage_account_name = "devops88"
     container_name       = "tfstates"
     key                  = "demo/terraform.tfstate"
 
